@@ -28,7 +28,7 @@ const ProfilePicture = ({ username }) => {
                 <Pressable onPress={pickImageAsync}>
                     <Image source={imageSource} style={styles.profileImage} />
                 </Pressable>
-                <Text style={styles.userName}>{username === "" ? "User Name" : username}</Text>
+                <Text style={styles.userName}>{username === "" || username === "undefined" || username === null ? "User Name" : username}</Text>
             </LinearGradient>
         </View>
     );

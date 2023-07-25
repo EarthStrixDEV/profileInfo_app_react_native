@@ -14,27 +14,38 @@ const SaveProfile = () => {
     const [username, setUsername] = useState("");
     const [email, setMail] = useState("");
     const [phone, setPhone] = useState("");
-    const [data, setData] = useState([]);
 
+    const [showUsername ,setShowUsername] = useState("");
+    
     function handleSetData() {
-        let tempData = [];
-        tempData.push(username);
-        tempData.push(email);
-        tempData.push(phone);
-        setData(tempData);
+        setShowUsername(username);
         // alert data
         Alert.alert(
             "Save Profile",
-            `Name: ${data[0]} \nEmail: ${data[1]} \nPhone: ${data[2]}`,
+            `Name: ${username} \nEmail: ${email} \nPhone: ${phone}`,
             [
                 {
                     text: "Cancel",
-                    onPress: () => Alert.alert("Cancel"),
+                    onPress: function() {
+                        setUsername("");
+                        setMail("");
+                        setPhone("");
+                    },
                     style: "cancel",
                 },
                 {
                     text: "Save",
-                    onPress: () => Alert.alert("Save"),
+                    onPress: () =>
+                        (username === "undefined" || username === "") &&
+                        (email === "undefined" || email === "") &&
+                        (phone === "undefined" || phone === "")
+                            ? Alert.alert(
+                                  "Don't make all input blank or empty to continue!"
+                              )
+                            : Alert.alert(
+                                  "Save",
+                                  "Save your data successfully!!!"
+                              ),
                     style: "default",
                 },
             ]
@@ -42,7 +53,7 @@ const SaveProfile = () => {
     }
     return (
         <View style={{flex: 1}}>
-            <ProfilePicture username={username} />
+            <ProfilePicture username={showUsername} />
             <View style={styles.container}>
                 <View style={{ marginVertical: 10, paddingHorizontal: 10 }}>
                     <AntDesign
@@ -54,7 +65,8 @@ const SaveProfile = () => {
                     <TextInput
                         style={styles.textInput}
                         placeholder="Your Name"
-                        onChangeText={setUsername}
+                        onChangeText={ value => setUsername(value) }
+                        value={username}
                     ></TextInput>
                 </View>
                 <View style={{ marginVertical: 10, paddingHorizontal: 10 }}>
@@ -67,7 +79,8 @@ const SaveProfile = () => {
                     <TextInput
                         style={styles.textInput}
                         placeholder="Email"
-                        onChangeText={setMail}
+                        onChangeText={ value => setMail(value) }
+                        value={email}
                     ></TextInput>
                 </View>
                 <View style={{ marginVertical: 10, paddingHorizontal: 10 }}>
@@ -80,7 +93,9 @@ const SaveProfile = () => {
                     <TextInput
                         style={styles.textInput}
                         placeholder="Phone"
-                        onChangeText={setPhone}
+                        onChangeText={value => setPhone(value)}
+                        keyboardType={ 'numeric' }
+                        value={phone}
                     ></TextInput>
                 </View>
                 <View
@@ -119,7 +134,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderWidth: 1,
         borderColor: "black",
-        fontSize: 22,
+        fontSize: 20,
     },
     buttonSave: {
         backgroundColor: "#2F80ED",
